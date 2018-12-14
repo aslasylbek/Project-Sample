@@ -41,7 +41,7 @@ struct Topic: Codable {
     let startGram, endGram: EndGram?
     let words: [Word]?
     let listening: [Listening]?
-    let reading: [Reading]?
+    let reading: [ReadingModel]?
     let grammar: [Grammar]?
     
     enum CodingKeys: String, CodingKey {
@@ -110,19 +110,7 @@ struct Listening: Codable {
     }
 }
 
-struct Reading: Codable {
-    let id, reading: String?
-    let questionanswer: [Questionanswer]?
-    let truefalse: [Truefalse]?
-}
 
-struct Questionanswer: Codable {
-    let id, question, answer: String?
-}
-
-struct Truefalse: Codable {
-    let id, question, truefalse: String?
-}
 
 struct Word: Codable {
     let id, word: String?

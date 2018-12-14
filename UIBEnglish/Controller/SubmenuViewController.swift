@@ -35,33 +35,33 @@ class SubmenuViewController: UIViewController {
         if (lessonData?.words?.count)! > 0{
             categoryData.append(TaskCategory(
                 id: 0,
-                title: "Task1",
+                title: "Task 1",
                 icon: "right-arrow",
-                description: "This is desc",
+                description: "Listen to the phrase and find it on the list.",
                 startTime: lessonData!.startVoc! ,
                 endTime: lessonData!.endVoc!,
                 topic_id: lessonData!.topicID!))
             categoryData.append(TaskCategory(
                 id: 1,
-                title: "Task2",
+                title: "Task 2",
                 icon: "right-arrow",
-                description: "This is desc",
+                description: "Listen to the phrase and find its translation.",
                 startTime: lessonData!.startVoc! ,
                 endTime: lessonData!.endVoc!,
                 topic_id: lessonData!.topicID!))
             categoryData.append(TaskCategory(
                 id: 2,
-                title: "Task3",
+                title: "Task 3",
                 icon: "right-arrow",
-                description: "This is desc",
+                description: "Read the phrase and find its translation.",
                 startTime: lessonData!.startVoc! ,
                 endTime: lessonData!.endVoc!,
                 topic_id: lessonData!.topicID!))
             categoryData.append(TaskCategory(
                 id: 3,
-                title: "Task4",
+                title: "Task 4",
                 icon: "right-arrow",
-                description: "This is desc",
+                description: "Write the phrase at dictation.",
                 startTime: lessonData!.startVoc! ,
                 endTime: lessonData!.endVoc!,
                 topic_id: lessonData!.topicID!))
@@ -70,8 +70,8 @@ class SubmenuViewController: UIViewController {
             categoryData.append(TaskCategory(
                 id: 4,
                 title: "Listening",
-                icon: "right-arrow",
-                description: "This is desc",
+                icon: "albumArt",
+                description: "Listen to the text and put the missed word.",
                 startTime: lessonData!.startListen! ,
                 endTime: lessonData!.endListen!,
                 topic_id: lessonData!.topicID!))
@@ -81,7 +81,7 @@ class SubmenuViewController: UIViewController {
                 id: 5,
                 title: "Reading",
                 icon: "right-arrow",
-                description: "This is desc",
+                description: "Read the text and do tasks.",
                 startTime: lessonData!.startRead!,
                 endTime: lessonData!.endRead!,
                 topic_id: lessonData!.topicID!))
@@ -91,7 +91,7 @@ class SubmenuViewController: UIViewController {
                 id: 6,
                 title: "Grammar",
                 icon: "right-arrow",
-                description: "This is desc",
+                description: "Put the missing word. Building a proposal.",
                 startTime: lessonData!.startGram! ,
                 endTime: lessonData!.endGram!,
                 topic_id: lessonData!.topicID!))
@@ -109,6 +109,9 @@ class SubmenuViewController: UIViewController {
         }
     }
     
+    @IBAction func backToMenu(_ sender: UIBarButtonItem) {
+        dismiss(animated: true, completion: nil)
+    }
     
 }
 

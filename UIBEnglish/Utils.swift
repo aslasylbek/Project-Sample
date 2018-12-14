@@ -29,33 +29,8 @@ class Utils{
         }
     }
     
-   
-    
 
 //
-//
-//    @FormUrlEncoded
-//    @POST("mobile_eng/data.php")
-//    Call<EngInformationResponse> getStudentSubjectInformation(
-//    @Field("user_id") String user_id);
-//
-//
-//
-//
-//    @FormUrlEncoded
-//    @POST("modules/online_lessons/add_results.php")
-//    Call<PostDataResponse> postVocabularyResult(
-//    @Field("exercise_id") String ex_id,
-//    @Field("user_id") String user_id,
-//    @Field("topic_id") String topic_id,
-//    @Field("result") int result,
-//    @Field("start_time") long start_time,
-//    @FieldMap Map<String, Integer> each_result);
-//
-//    @FormUrlEncoded
-//    @POST("modules/online_lessons/add_results.php")
-//    Call<PostDataResponse> postTaskResult(
-//    @FieldMap Map<String, String> data);
 //
 //    @FormUrlEncoded
 //    @POST("post/user_word_data.php")
@@ -78,13 +53,7 @@ class Utils{
 //    @Field("result_tf") Integer result_tf,
 //    @Field("start_time") long start_time);
 //
-//    @FormUrlEncoded
-//    @POST("post/listening_questions.php")
-//    Call<PostDataResponse> postListeningResult(
-//    @Field("user_id") String user_id,
-//    @Field("topic_id") String topic_id,
-//    @Field("result_ans") int result_ans,
-//    @Field("start_time") long start_time);
+
 //
 //    @FormUrlEncoded
 //    @POST("post/grammatika_questions.php")

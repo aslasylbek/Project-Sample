@@ -9,6 +9,8 @@ target 'UIBEnglish' do
   pod 'SwiftyJSON'
   pod 'ProgressHUD'
   pod 'Alamofire', '~> 4.7'
+  pod 'MBProgressHUD', '~> 1.1.0'
+  pod "UPCarouselFlowLayout"
 
   # Pods for UIBEnglish
 

@@ -14,11 +14,22 @@
 		6A0AA02921A6EA050054C6C6 /* WordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A0AA02821A6EA050054C6C6 /* WordTableViewCell.swift */; };
 		6A0AA02B21AC07D60054C6C6 /* SubmenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A0AA02A21AC07D60054C6C6 /* SubmenuViewController.swift */; };
 		6A0AA02D21AC08580054C6C6 /* SubmenuLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A0AA02C21AC08580054C6C6 /* SubmenuLayout.swift */; };
+		6A82108021BA3B1E00AB4F14 /* ReadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A82107F21BA3B1E00AB4F14 /* ReadingViewController.swift */; };
+		6A82108721BA6BAC00AB4F14 /* ReadingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A82108621BA6BAC00AB4F14 /* ReadingModel.swift */; };
+		6A82109021BAAFDD00AB4F14 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A82108F21BAAFDD00AB4F14 /* Colors.xcassets */; };
+		6A82109221BABA1A00AB4F14 /* DefinitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A82109121BABA1A00AB4F14 /* DefinitionViewController.swift */; };
+		6A82109421BAC97600AB4F14 /* LinguoWordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A82109321BAC97600AB4F14 /* LinguoWordModel.swift */; };
+		6A82109621BE724000AB4F14 /* ReadingTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A82109521BE723F00AB4F14 /* ReadingTaskViewController.swift */; };
 		6A8A7628216DD0AB002355F8 /* Reachability.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A8A7619216DCEB9002355F8 /* Reachability.framework */; };
 		6A8A762B216EFE64002355F8 /* WordsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A8A762A216EFE64002355F8 /* WordsData.swift */; };
 		6A8C61E921AD376A006911E8 /* VocabularyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A8C61E821AD3769006911E8 /* VocabularyViewController.swift */; };
 		6A8C61EB21AD4AEC006911E8 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A8C61EA21AD4AEC006911E8 /* PageViewController.swift */; };
 		6A8C61F121AE6260006911E8 /* FinishViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A8C61F021AE6260006911E8 /* FinishViewController.swift */; };
+		6A981D9121C28D3000A8E846 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A981D9021C28D3000A8E846 /* ImageLoader.swift */; };
+		6A981D9821C2968500A8E846 /* AudioSynthesis.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A981D9721C2968500A8E846 /* AudioSynthesis.swift */; };
+		6A981D9A21C29FBF00A8E846 /* ListeningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A981D9921C29FBF00A8E846 /* ListeningViewController.swift */; };
+		6A981D9C21C2AE1F00A8E846 /* ListeningModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A981D9B21C2AE1F00A8E846 /* ListeningModel.swift */; };
+		6A981D9F21C3AF7900A8E846 /* AnimationFrames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A981D9E21C3AF7900A8E846 /* AnimationFrames.swift */; };
 		6ACB776621AEC28000B3E366 /* VocTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ACB776521AEC28000B3E366 /* VocTestViewController.swift */; };
 		6ACB776D21B0079F00B3E366 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ACB776C21B0079F00B3E366 /* Utils.swift */; };
 		6ACB776F21B0EA2100B3E366 /* PlayPauseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ACB776E21B0EA2100B3E366 /* PlayPauseButton.swift */; };
@@ -26,6 +37,9 @@
 		6ACB777321B0F84F00B3E366 /* UIImage+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ACB777221B0F84F00B3E366 /* UIImage+Swift.swift */; };
 		6ACB777521B0F9EB00B3E366 /* loading.gif in Resources */ = {isa = PBXBuildFile; fileRef = 6ACB777421B0F9EB00B3E366 /* loading.gif */; };
 		6ACB777921B1599100B3E366 /* StudentsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ACB777821B1599100B3E366 /* StudentsData.swift */; };
+		6ACB778021B7C71600B3E366 /* ProgressExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ACB777F21B7C71600B3E366 /* ProgressExtension.swift */; };
+		6ACB778321B7D95200B3E366 /* GrammarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ACB778221B7D95200B3E366 /* GrammarViewController.swift */; };
+		6ACB778A21B7F41000B3E366 /* GrammarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ACB778921B7F41000B3E366 /* GrammarModel.swift */; };
 		6AEEFFB9215E23510069C8E1 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEEFFB8215E23510069C8E1 /* Product.swift */; };
 		6AF29E96219AEB46009B9ABA /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF29E95219AEB46009B9ABA /* ProfileModel.swift */; };
 		6AF29E9D219BF57A009B9ABA /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF29E9C219BF57A009B9ABA /* MenuViewController.swift */; };
@@ -92,11 +106,22 @@
 		6A0AA02821A6EA050054C6C6 /* WordTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordTableViewCell.swift; sourceTree = "<group>"; };
 		6A0AA02A21AC07D60054C6C6 /* SubmenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmenuViewController.swift; sourceTree = "<group>"; };
 		6A0AA02C21AC08580054C6C6 /* SubmenuLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmenuLayout.swift; sourceTree = "<group>"; };
+		6A82107F21BA3B1E00AB4F14 /* ReadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingViewController.swift; sourceTree = "<group>"; };
+		6A82108621BA6BAC00AB4F14 /* ReadingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingModel.swift; sourceTree = "<group>"; };
+		6A82108F21BAAFDD00AB4F14 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
+		6A82109121BABA1A00AB4F14 /* DefinitionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefinitionViewController.swift; sourceTree = "<group>"; };
+		6A82109321BAC97600AB4F14 /* LinguoWordModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinguoWordModel.swift; sourceTree = "<group>"; };
+		6A82109521BE723F00AB4F14 /* ReadingTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingTaskViewController.swift; sourceTree = "<group>"; };
 		6A8A7610216DCEB9002355F8 /* Reachability.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Reachability.xcodeproj; path = Carthage/Checkouts/Reachability.swift/Reachability.xcodeproj; sourceTree = "<group>"; };
 		6A8A762A216EFE64002355F8 /* WordsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordsData.swift; sourceTree = "<group>"; };
 		6A8C61E821AD3769006911E8 /* VocabularyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabularyViewController.swift; sourceTree = "<group>"; };
 		6A8C61EA21AD4AEC006911E8 /* PageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
 		6A8C61F021AE6260006911E8 /* FinishViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishViewController.swift; sourceTree = "<group>"; };
+		6A981D9021C28D3000A8E846 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
+		6A981D9721C2968500A8E846 /* AudioSynthesis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioSynthesis.swift; sourceTree = "<group>"; };
+		6A981D9921C29FBF00A8E846 /* ListeningViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListeningViewController.swift; sourceTree = "<group>"; };
+		6A981D9B21C2AE1F00A8E846 /* ListeningModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListeningModel.swift; sourceTree = "<group>"; };
+		6A981D9E21C3AF7900A8E846 /* AnimationFrames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationFrames.swift; sourceTree = "<group>"; };
 		6ACB776521AEC28000B3E366 /* VocTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocTestViewController.swift; sourceTree = "<group>"; };
 		6ACB776C21B0079F00B3E366 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		6ACB776E21B0EA2100B3E366 /* PlayPauseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayPauseButton.swift; sourceTree = "<group>"; };
@@ -104,6 +129,9 @@
 		6ACB777221B0F84F00B3E366 /* UIImage+Swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Swift.swift"; sourceTree = "<group>"; };
 		6ACB777421B0F9EB00B3E366 /* loading.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = loading.gif; path = ../../../Downloads/loading.gif; sourceTree = "<group>"; };
 		6ACB777821B1599100B3E366 /* StudentsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentsData.swift; sourceTree = "<group>"; };
+		6ACB777F21B7C71600B3E366 /* ProgressExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressExtension.swift; sourceTree = "<group>"; };
+		6ACB778221B7D95200B3E366 /* GrammarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrammarViewController.swift; sourceTree = "<group>"; };
+		6ACB778921B7F41000B3E366 /* GrammarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrammarModel.swift; sourceTree = "<group>"; };
 		6AEEFFB8215E23510069C8E1 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		6AF29E95219AEB46009B9ABA /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
 		6AF29E9C219BF57A009B9ABA /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
@@ -158,6 +186,16 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		6A981D9D21C3AF5C00A8E846 /* UI Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				6ACB777F21B7C71600B3E366 /* ProgressExtension.swift */,
+				6A981D9021C28D3000A8E846 /* ImageLoader.swift */,
+				6A981D9E21C3AF7900A8E846 /* AnimationFrames.swift */,
+			);
+			path = "UI Helpers";
+			sourceTree = "<group>";
+		};
 		6AC377F0219AE0350076BB16 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -184,6 +222,11 @@
 				6A8C61EA21AD4AEC006911E8 /* PageViewController.swift */,
 				6A8C61F021AE6260006911E8 /* FinishViewController.swift */,
 				6ACB776521AEC28000B3E366 /* VocTestViewController.swift */,
+				6ACB778221B7D95200B3E366 /* GrammarViewController.swift */,
+				6A82107F21BA3B1E00AB4F14 /* ReadingViewController.swift */,
+				6A82109121BABA1A00AB4F14 /* DefinitionViewController.swift */,
+				6A82109521BE723F00AB4F14 /* ReadingTaskViewController.swift */,
+				6A981D9921C29FBF00A8E846 /* ListeningViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -197,6 +240,10 @@
 				6A005FBE216B77550028C491 /* LoginResponse.swift */,
 				6A8A762A216EFE64002355F8 /* WordsData.swift */,
 				6ACB777821B1599100B3E366 /* StudentsData.swift */,
+				6ACB778921B7F41000B3E366 /* GrammarModel.swift */,
+				6A82108621BA6BAC00AB4F14 /* ReadingModel.swift */,
+				6A82109321BAC97600AB4F14 /* LinguoWordModel.swift */,
+				6A981D9B21C2AE1F00A8E846 /* ListeningModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -208,6 +255,7 @@
 				BEBDB7BA215B575600D15C11 /* Assets.xcassets */,
 				BEBDB7B3215B575500D15C11 /* AppDelegate.swift */,
 				BEBDB7BC215B575600D15C11 /* LaunchScreen.storyboard */,
+				6A82108F21BAAFDD00AB4F14 /* Colors.xcassets */,
 			);
 			path = Assets;
 			sourceTree = "<group>";
@@ -217,6 +265,7 @@
 			children = (
 				6AF29EE6219DA3D5009B9ABA /* LibraryApi.swift */,
 				6AF29EE821A27764009B9ABA /* Defaults.swift */,
+				6A981D9721C2968500A8E846 /* AudioSynthesis.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -253,6 +302,7 @@
 				6A005FB6216B5D420028C491 /* English.xcdatamodeld */,
 				6ACB776C21B0079F00B3E366 /* Utils.swift */,
 				6ACB777421B0F9EB00B3E366 /* loading.gif */,
+				6A981D9D21C3AF5C00A8E846 /* UI Helpers */,
 			);
 			path = UIBEnglish;
 			sourceTree = "<group>";
@@ -378,6 +428,7 @@
 				6ACB777521B0F9EB00B3E366 /* loading.gif in Resources */,
 				6AF29EA4219C5439009B9ABA /* Inspirations.xcassets in Resources */,
 				BEBDB7B9215B575500D15C11 /* Main.storyboard in Resources */,
+				6A82109021BAAFDD00AB4F14 /* Colors.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -434,18 +485,22 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-UIBEnglish/Pods-UIBEnglish-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/ProgressHUD/ProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/UICircularProgressRing/UICircularProgressRing.framework",
+				"${BUILT_PRODUCTS_DIR}/UPCarouselFlowLayout/UPCarouselFlowLayout.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/UICircularProgressRing.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/UPCarouselFlowLayout.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -459,29 +514,42 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6A82108021BA3B1E00AB4F14 /* ReadingViewController.swift in Sources */,
 				BEBDB7C6215BAC2E00D15C11 /* LoginPageViewController.swift in Sources */,
 				6A0AA02B21AC07D60054C6C6 /* SubmenuViewController.swift in Sources */,
 				6A005FB8216B5D420028C491 /* English.xcdatamodeld in Sources */,
 				6ACB777321B0F84F00B3E366 /* UIImage+Swift.swift in Sources */,
+				6A82109421BAC97600AB4F14 /* LinguoWordModel.swift in Sources */,
 				6A005FBF216B77550028C491 /* LoginResponse.swift in Sources */,
 				6AF29E96219AEB46009B9ABA /* ProfileModel.swift in Sources */,
 				6A0AA02721A6E9D10054C6C6 /* WordsViewController.swift in Sources */,
 				6AF29EE4219D9391009B9ABA /* EnglishData.swift in Sources */,
+				6ACB778021B7C71600B3E366 /* ProgressExtension.swift in Sources */,
 				6AF29E9D219BF57A009B9ABA /* MenuViewController.swift in Sources */,
+				6A981D9821C2968500A8E846 /* AudioSynthesis.swift in Sources */,
 				6A8C61E921AD376A006911E8 /* VocabularyViewController.swift in Sources */,
 				6AEEFFB9215E23510069C8E1 /* Product.swift in Sources */,
+				6A981D9121C28D3000A8E846 /* ImageLoader.swift in Sources */,
 				6A0AA02D21AC08580054C6C6 /* SubmenuLayout.swift in Sources */,
 				6A8C61EB21AD4AEC006911E8 /* PageViewController.swift in Sources */,
+				6ACB778321B7D95200B3E366 /* GrammarViewController.swift in Sources */,
 				6AF29EE7219DA3D5009B9ABA /* LibraryApi.swift in Sources */,
 				6AF29EA1219C4C85009B9ABA /* MenuTableViewCell.swift in Sources */,
 				6AF29EA6219C5FF8009B9ABA /* MenuModel.swift in Sources */,
 				6ACB777921B1599100B3E366 /* StudentsData.swift in Sources */,
+				6ACB778A21B7F41000B3E366 /* GrammarModel.swift in Sources */,
+				6A981D9C21C2AE1F00A8E846 /* ListeningModel.swift in Sources */,
 				6ACB776D21B0079F00B3E366 /* Utils.swift in Sources */,
 				6ACB776F21B0EA2100B3E366 /* PlayPauseButton.swift in Sources */,
+				6A981D9A21C29FBF00A8E846 /* ListeningViewController.swift in Sources */,
 				6A0AA02921A6EA050054C6C6 /* WordTableViewCell.swift in Sources */,
+				6A82108721BA6BAC00AB4F14 /* ReadingModel.swift in Sources */,
+				6A981D9F21C3AF7900A8E846 /* AnimationFrames.swift in Sources */,
 				BEBDB7B6215B575500D15C11 /* ViewController.swift in Sources */,
 				6A8C61F121AE6260006911E8 /* FinishViewController.swift in Sources */,
+				6A82109621BE724000AB4F14 /* ReadingTaskViewController.swift in Sources */,
 				BEBDB7B4215B575500D15C11 /* AppDelegate.swift in Sources */,
+				6A82109221BABA1A00AB4F14 /* DefinitionViewController.swift in Sources */,
 				6ACB777121B0F36A00B3E366 /* CustomLoader.swift in Sources */,
 				6AF29EE921A27764009B9ABA /* Defaults.swift in Sources */,
 				6A8A762B216EFE64002355F8 /* WordsData.swift in Sources */,

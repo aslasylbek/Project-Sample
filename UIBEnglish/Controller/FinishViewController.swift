@@ -23,9 +23,14 @@ class FinishViewController: UIViewController {
         
        
     }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        progressView.startProgress(to: UICircularProgressRing.ProgressValue(progress!), duration: 2)
+    }
     
     @IBAction func tappedButti(_ sender: Any) {
-        progressView.startProgress(to: UICircularProgressRing.ProgressValue(progress!), duration: 2)
+        navigationController?.popViewController(animated: true)
+        dismiss(animated: true, completion: nil)
     }
     
     /*

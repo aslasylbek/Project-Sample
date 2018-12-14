@@ -8,21 +8,18 @@
 
 import UIKit
 import AVFoundation
-import ProgressHUD
 
-protocol NotifyParentPageView {
-    func notifyParent(status: Int)
-}
 
 class VocabularyViewController: UIViewController {
 
     //MARK: Properties
-    
     var allData = [Word]()
-    var delegate: NotifyParentPageView!
+    var delegate: PassVocabulatyResultToParent!
     var topicId: String?
     
-    @IBOutlet weak var wordImage: UIImageView!{
+    @IBOutlet weak var rootStackView: UIStackView!
+    
+    @IBOutlet weak var wordImage: ImageLoader!{
         didSet{
             guard let image = wordObject?.picURL else {
                 return
@@ -55,7 +52,8 @@ class VocabularyViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        ProgressHUD.show()
+        rootStackView.isHidden = true
+        showHUD("Loading")
         //lessonsData.removeAll()
         let url = URL(string: "http://moodle.uib.kz/mobile_eng/data.php")
         var request = URLRequest(url: url!)
@@ -71,19 +69,19 @@ class VocabularyViewController: UIViewController {
                         self.allData = words!
                         UserDefaults.standard.setValue(englishData.english![0].courseID!, forKey: "course_id")
                         DispatchQueue.main.async {
-                            ProgressHUD.dismiss()
                             //CustomLoader.instance.hideLoader()
+                            self.rootStackView.isHidden = false
                             self.updateCard()
                             self.updateUI()
+                            self.hideHUD()
                         }
                     }
                 }
-                
-                
             }
             else{
-                ProgressHUD.showError()
+                self.hideHUD()
             }
+            
         }
         session.resume()
         //wordImage.image = downloadImage((wordObject?.picURL)!)
@@ -92,6 +90,9 @@ class VocabularyViewController: UIViewController {
     func updateCard() {
         if cardNumber<allData.count{
             wordObject = allData[cardNumber]
+            if let strUrl = wordObject?.picURL!, let imgUrl = URL(string: strUrl) {
+                self.wordImage.loadImageWithUrl(imgUrl)
+            }
             wordImage.image = downloadImage((wordObject?.picURL)!)
             mWord.text = wordObject?.word
             mWordTranslate.text = wordObject?.translateWord
