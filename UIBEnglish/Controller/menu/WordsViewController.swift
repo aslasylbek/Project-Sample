@@ -22,41 +22,51 @@ class WordsViewController: UIViewController {
         super.viewDidLoad()
         let cellNib = UINib(nibName: "NothingFoundCell", bundle: nil)
         wordsTableView.register(cellNib, forCellReuseIdentifier: "NothingFound")
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        title = "Wordbook"
         requestWordBookData()
     }
     
-    func requestWordBookData()  {
-        let defaults = UserDefaults.standard
-        guard let courseId = defaults.string(forKey: "course_id")
-            else{ return }
-        guard let url = URL(string: "http://de.uib.kz/post/words_data.php")
-            else {return}
-        showHUD("Loading...")
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        let userId = defaults.string(forKey: "user_id")
-       
-        request.httpBody = "user_id=\(userId!)&course_id=\(courseId)".data(using: String.Encoding.utf8)
+    @IBAction func updateTouchUp(_ sender: UIBarButtonItem) {
+        requestWordBookData()
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        title = "Wordbook"
         
-        let task = URLSession.shared.wordsDataTask(with: request) { wordsData, response, error in
-            if let wordsData = wordsData {
-                self.wordsCollection = wordsData
+    }
+    
+    func requestWordBookData()  {
+        
+        if Connectivity.isConnectedToInternet{
+            let defaults = UserDefaults.standard
+            guard let courseId = defaults.string(forKey: "course_id")
+                else{ return }
+            guard let url = URL(string: "http://de.uib.kz/post/words_data.php")
+                else {return}
+            showHUD("Loading...")
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            let userId = defaults.string(forKey: "user_id")
+           
+            request.httpBody = "user_id=\(userId!)&course_id=\(courseId)".data(using: String.Encoding.utf8)
+            
+            let task = URLSession.shared.wordsDataTask(with: request) { wordsData, response, error in
+                if let wordsData = wordsData {
+                    self.wordsCollection = wordsData
+                    DispatchQueue.main.async {
+                        self.segmentControll.selectedSegmentIndex = 0
+                        self.segmentControll.sendActions(for: .valueChanged)
+                        //self.wordsTableView.reloadData()
+                    }
+                }
                 DispatchQueue.main.async {
-                    self.segmentControll.selectedSegmentIndex = 0
-                    self.segmentControll.sendActions(for: .valueChanged)
-                    //self.wordsTableView.reloadData()
+                    self.hideHUD()
                 }
             }
-            DispatchQueue.main.async {
-                self.hideHUD()
-            }
+            task.resume()
         }
-        task.resume()
+        else{
+            Utils.noInternetMessage(controller: self)
+        }
     }
     
     @IBAction func selectedSegmentControll(_ sender: UISegmentedControl) {
@@ -99,10 +109,6 @@ extension WordsViewController: UITableViewDataSource{
             cell.wordLabel.text = word.word
             cell.translateLabel.text = word.translateWord
             cell.transcriptionLabel.text = word.transcription
-            
-            //cell.wordLabel.backgroundColor = UIColor(white: 204/255, alpha: 1)
-            //cell.wordLabel.textAlignment = .center
-            //cell.arrowLabel.textColor = UIColor(white: 114 / 255, alpha: 1)
             cell.selectionStyle = .none
             cell.translateLabel.isHidden = word.isExpanded ? false : true
             cell.transcriptionLabel.isHidden = word.isExpanded ? false : true
@@ -118,11 +124,8 @@ extension WordsViewController: UITableViewDataSource{
                 synth.speak(utterance)
             }
             
-    //        cell.arrowLabel.text = wordsCollection.isExpanded ? word.translate_word : moreInfoText
-    //        cell.arrowLabel.textAlignment = wordsCollection.isExpanded ? .left : .center
             
             cell.wordLabel.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.headline)
-            //cell.arrowLabel.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.footnote)
             
             return cell
         }

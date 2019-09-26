@@ -43,6 +43,12 @@ class DefinitionViewController: UIViewController {
                           parameters: params)
             .responseLinguoWordModel { response in
                 if let linguoWordModel = response.result.value {
+                    guard let translate = linguoWordModel.soundURL else{
+                        self.lblWord.isHidden = false
+                        self.lblWord.text = linguoWordModel.errorMsg
+                        self.hideHUD()
+                        return
+                    }
                     self.wordData = linguoWordModel
                     self.lblTranscript.isHidden = false
                     self.lblWord.isHidden = false
@@ -57,6 +63,7 @@ class DefinitionViewController: UIViewController {
                 self.hideHUD()
         }
     }
+    
     
     func updateUI() {
         lblWord.text = wordData?.wordForms![0].word

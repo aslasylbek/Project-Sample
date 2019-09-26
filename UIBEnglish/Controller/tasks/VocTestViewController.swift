@@ -63,10 +63,8 @@ class VocTestViewController: UIViewController {
         //lessonsData.removeAll()
         showHUD("Loading")
         let url = URL(string: "http://moodle.uib.kz/mobile_eng/data.php")
-        //var request = URLRequest(url: url!)
-        //request.httpMethod = "POST"
+        
         let user_id = UserDefaults.standard.string(forKey: "user_id")
-        //request.httpBody = "user_id=\(user_id!)".data(using: String.Encoding.utf8)
         
         Alamofire.request(url!,
                           method: .post,

@@ -57,7 +57,6 @@ class EditableListViewController: UIViewController {
     }
     
     func checkAnswerAndSend() {
-        print("BABABB")
         for i in 0..<allTask.count{
             let pureText = inputTexts[i].trimmingCharacters(in: CharacterSet.whitespaces).lowercased()
             answerArray[allTask[i].id!] = pureText

@@ -7,10 +7,22 @@
 //
 
 
+// To parse the JSON, add this file to your project and do:
+//
+//   let englishModel = try? newJSONDecoder().decode(EnglishModel.self, from: jsonData)
+//
+// To parse values from Alamofire responses:
+//
+//   Alamofire.request(url).responseEnglishModel { response in
+//     if let englishModel = response.result.value {
+//       ...
+//     }
+//   }
 
 import Foundation
+import Alamofire
 
-struct EnglishData: Codable {
+struct EnglishModel: Codable {
     let success: Int?
     let message: String?
     let info: [Info]?
@@ -19,7 +31,8 @@ struct EnglishData: Codable {
 
 struct English: Codable {
     let courseID, dispName, teacherID, teacherFio: String?
-    let vsk1, vsk2, exam, total: String?
+    let vsk1, vsk2, exam: JSONAny?
+    let total: String?
     let topics: [Topic]?
     
     enum CodingKeys: String, CodingKey {
@@ -33,16 +46,14 @@ struct English: Codable {
 
 struct Topic: Codable {
     let topicID: String?
-    let number: JSONNull?
+    let number: JSONAny?
     let title: String?
-    let startVoc, endVoc: EndGram?
-    let startRead, endRead: EndGram?
-    let startListen, endListen: EndGram?
-    let startGram, endGram: EndGram?
+    let endRead, startListen, endListen, startGram, startVoc, endVoc, startRead: JSONAny?
+    let endGram: JSONAny?
     let words: [Word]?
     let listening: [Listening]?
     let reading: [ReadingModel]?
-    let grammar: [Grammar]?
+    let grammar: [GrammarModel]?
     
     enum CodingKeys: String, CodingKey {
         case topicID = "topic_id"
@@ -59,34 +70,6 @@ struct Topic: Codable {
     }
 }
 
-enum EndGram: Codable {
-    case integer(Int)
-    case string(String)
-    
-    init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        if let x = try? container.decode(Int.self) {
-            self = .integer(x)
-            return
-        }
-        if let x = try? container.decode(String.self) {
-            self = .string(x)
-            return
-        }
-        throw DecodingError.typeMismatch(EndGram.self, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Wrong type for EndGram"))
-    }
-    
-    func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        switch self {
-        case .integer(let x):
-            try container.encode(x)
-        case .string(let x):
-            try container.encode(x)
-        }
-    }
-}
-
 struct Grammar: Codable {
     let id, sentence, question, answer: String?
     let translate: String?
@@ -100,8 +83,8 @@ struct Grammar: Codable {
 
 struct Listening: Codable {
     let id, listening: String?
-    let translate: JSONNull?
-    let questionanswer: [JSONAny]?
+    let translate: String?
+    let questionanswer: [Questionanswer]?
     let soundURL: String?
     
     enum CodingKeys: String, CodingKey {
@@ -111,10 +94,15 @@ struct Listening: Codable {
 }
 
 
+struct Reading: Codable {
+    let id, reading: String?
+    let questionanswer: [Questionanswer]?
+    let truefalse: [Truefalse]?
+}
 
 struct Word: Codable {
     let id, word: String?
-    let type: TypeEnum?
+    let type: String?
     let picURL: String?
     let transcription: String?
     let soundURL: String?
@@ -129,11 +117,6 @@ struct Word: Codable {
     }
 }
 
-enum TypeEnum: String, Codable {
-    case adj = "adj."
-    case noun = "noun"
-}
-
 struct Info: Codable {
     let fio, barcode, group, code: String?
     let program, course: String?
@@ -141,46 +124,48 @@ struct Info: Codable {
 
 // MARK: Encode/decode helpers
 
+//// MARK: Encode/decode helpers
+//
 class JSONNull: Codable, Hashable {
-    
+
     public static func == (lhs: JSONNull, rhs: JSONNull) -> Bool {
         return true
     }
-    
+
     public var hashValue: Int {
         return 0
     }
-    
+
     public init() {}
-    
+
     public required init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         if !container.decodeNil() {
             throw DecodingError.typeMismatch(JSONNull.self, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Wrong type for JSONNull"))
         }
     }
-    
+
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         try container.encodeNil()
     }
 }
-
+//
 class JSONCodingKey: CodingKey {
     let key: String
-    
+
     required init?(intValue: Int) {
         return nil
     }
-    
+
     required init?(stringValue: String) {
         key = stringValue
     }
-    
+
     var intValue: Int? {
         return nil
     }
-    
+
     var stringValue: String {
         return key
     }
@@ -188,17 +173,17 @@ class JSONCodingKey: CodingKey {
 
 class JSONAny: Codable {
     let value: Any
-    
+
     static func decodingError(forCodingPath codingPath: [CodingKey]) -> DecodingError {
         let context = DecodingError.Context(codingPath: codingPath, debugDescription: "Cannot decode JSONAny")
         return DecodingError.typeMismatch(JSONAny.self, context)
     }
-    
+
     static func encodingError(forValue value: Any, codingPath: [CodingKey]) -> EncodingError {
         let context = EncodingError.Context(codingPath: codingPath, debugDescription: "Cannot encode JSONAny")
         return EncodingError.invalidValue(value, context)
     }
-    
+
     static func decode(from container: SingleValueDecodingContainer) throws -> Any {
         if let value = try? container.decode(Bool.self) {
             return value
@@ -217,7 +202,7 @@ class JSONAny: Codable {
         }
         throw decodingError(forCodingPath: container.codingPath)
     }
-    
+
     static func decode(from container: inout UnkeyedDecodingContainer) throws -> Any {
         if let value = try? container.decode(Bool.self) {
             return value
@@ -244,7 +229,7 @@ class JSONAny: Codable {
         }
         throw decodingError(forCodingPath: container.codingPath)
     }
-    
+
     static func decode(from container: inout KeyedDecodingContainer<JSONCodingKey>, forKey key: JSONCodingKey) throws -> Any {
         if let value = try? container.decode(Bool.self, forKey: key) {
             return value
@@ -271,7 +256,7 @@ class JSONAny: Codable {
         }
         throw decodingError(forCodingPath: container.codingPath)
     }
-    
+
     static func decodeArray(from container: inout UnkeyedDecodingContainer) throws -> [Any] {
         var arr: [Any] = []
         while !container.isAtEnd {
@@ -280,7 +265,7 @@ class JSONAny: Codable {
         }
         return arr
     }
-    
+
     static func decodeDictionary(from container: inout KeyedDecodingContainer<JSONCodingKey>) throws -> [String: Any] {
         var dict = [String: Any]()
         for key in container.allKeys {
@@ -289,7 +274,7 @@ class JSONAny: Codable {
         }
         return dict
     }
-    
+
     static func encode(to container: inout UnkeyedEncodingContainer, array: [Any]) throws {
         for value in array {
             if let value = value as? Bool {
@@ -313,7 +298,7 @@ class JSONAny: Codable {
             }
         }
     }
-    
+
     static func encode(to container: inout KeyedEncodingContainer<JSONCodingKey>, dictionary: [String: Any]) throws {
         for (key, value) in dictionary {
             let key = JSONCodingKey(stringValue: key)!
@@ -338,7 +323,7 @@ class JSONAny: Codable {
             }
         }
     }
-    
+
     static func encode(to container: inout SingleValueEncodingContainer, value: Any) throws {
         if let value = value as? Bool {
             try container.encode(value)
@@ -354,7 +339,7 @@ class JSONAny: Codable {
             throw encodingError(forValue: value, codingPath: container.codingPath)
         }
     }
-    
+
     public required init(from decoder: Decoder) throws {
         if var arrayContainer = try? decoder.unkeyedContainer() {
             self.value = try JSONAny.decodeArray(from: &arrayContainer)
@@ -365,7 +350,7 @@ class JSONAny: Codable {
             self.value = try JSONAny.decode(from: container)
         }
     }
-    
+
     public func encode(to encoder: Encoder) throws {
         if let arr = self.value as? [Any] {
             var container = encoder.unkeyedContainer()
@@ -381,22 +366,28 @@ class JSONAny: Codable {
 }
 
 
+// MARK: - Alamofire response handlers
 
-// MARK: - URLSession response handlers
-
-extension URLSession {
-    fileprivate func codableTask<T: Codable>(with url: URLRequest, completionHandler: @escaping (T?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
-        return self.dataTask(with: url) { data, response, error in
-            guard let data = data, error == nil else {
-                completionHandler(nil, response, error)
-                return
+extension DataRequest {
+    fileprivate func decodableResponseSerializer<T: Decodable>() -> DataResponseSerializer<T> {
+        return DataResponseSerializer { _, response, data, error in
+            guard error == nil else { return .failure(error!) }
+            
+            guard let data = data else {
+                return .failure(AFError.responseSerializationFailed(reason: .inputDataNil))
             }
-            completionHandler(try? newJSONDecoder().decode(T.self, from: data), response, nil)
+            
+            return Result { try newJSONDecoder().decode(T.self, from: data) }
         }
     }
     
-    func englishDataTask(with url: URLRequest, completionHandler: @escaping (EnglishData?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
-        return self.codableTask(with: url, completionHandler: completionHandler)
+    @discardableResult
+    fileprivate func responseDecodable<T: Decodable>(queue: DispatchQueue? = nil, completionHandler: @escaping (DataResponse<T>) -> Void) -> Self {
+        return response(queue: queue, responseSerializer: decodableResponseSerializer(), completionHandler: completionHandler)
+    }
+    
+    @discardableResult
+    func responseEnglishModel(queue: DispatchQueue? = nil, completionHandler: @escaping (DataResponse<EnglishModel>) -> Void) -> Self {
+        return responseDecodable(queue: queue, completionHandler: completionHandler)
     }
 }
-

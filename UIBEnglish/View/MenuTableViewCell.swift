@@ -10,15 +10,10 @@ import UIKit
 
 class MenuTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var imageVIewCell: UIImageView!
     @IBOutlet weak var labelCell: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        imageVIewCell.layer.cornerRadius = 40
-        imageVIewCell.clipsToBounds = true
-        imageVIewCell.contentMode = .scaleToFill
-        imageVIewCell.backgroundColor = UIColor.lightGray
         
         // Initialization code
     }

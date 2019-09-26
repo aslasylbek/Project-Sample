@@ -10,6 +10,10 @@ import UIKit
 
 class BBCTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var mImage: ImageLoader!
+    @IBOutlet weak var mTitle: UILabel!
+    @IBOutlet weak var mDescription: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

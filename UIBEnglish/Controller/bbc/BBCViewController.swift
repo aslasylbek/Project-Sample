@@ -104,6 +104,7 @@ class BBCViewController: UIViewController, ScrollUISegmentControllerDelegate, UI
                 let lesson = allLessons[(mTableView.indexPathsForSelectedRows?.first?.row)!]
                 controller.lessonId = lesson.id
                 controller.titleMusic = lesson.title
+                
                 controller.imageUrl = lesson.img
             }
         }

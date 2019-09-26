@@ -36,7 +36,7 @@ class ScrollUISegmentController: UIScrollView  {
 
     public var segmentFont: UIFont = UIFont.systemFont(ofSize: 13) {
         didSet {
-            self.segmentedControl.setTitleTextAttributes([NSFontAttributeName: self.segmentFont],for: UIControlState())
+            self.segmentedControl.setTitleTextAttributes([NSAttributedString.Key.font: self.segmentFont],for: UIControl.State())
         }
     }
     public var itemsCount: Int = 3
@@ -80,16 +80,20 @@ class ScrollUISegmentController: UIScrollView  {
         self.backgroundColor = .clear
         showsHorizontalScrollIndicator = false
         showsVerticalScrollIndicator = false
-        NSLayoutConstraint(item: self.segmentedControl, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0).isActive = true
-        NSLayoutConstraint(item: self.segmentedControl, attribute: NSLayoutAttribute.centerY, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.centerY, multiplier: 1, constant: 0).isActive = true
+        NSLayoutConstraint(item: self.segmentedControl, attribute: NSLayoutConstraint.Attribute.centerX, relatedBy: NSLayoutConstraint.Relation.equal, toItem: self, attribute: NSLayoutConstraint.Attribute.centerX, multiplier: 1, constant: 0).isActive = true
+        NSLayoutConstraint(item: self.segmentedControl, attribute: NSLayoutConstraint.Attribute.centerY, relatedBy: NSLayoutConstraint.Relation.equal, toItem: self, attribute: NSLayoutConstraint.Attribute.centerY, multiplier: 1, constant: 0).isActive = true
         let contentHeight =  self.frame.height
         self.contentSize = CGSize (width: width, height: contentHeight)
-        self.segmentedControl.setTitleTextAttributes([NSFontAttributeName: self.segmentFont],for: UIControlState())
+        self.segmentedControl.setTitleTextAttributes([NSAttributedString.Key.font: self.segmentFont],for: UIControl.State())
         self.segmentedControl.tintColor = self.segmentTintColor
         self.segmentedControl.selectedSegmentIndex = 0;
         insertItems()
         self.segmentedControl.addTarget(self, action: #selector(self.segmentChangeSelectedIndex(_:)), for: .valueChanged)
         
+    }
+    
+    public func selectFirst(){
+        self.segmentedControl.selectedSegmentIndex = 0;
     }
     
     func insertItems(){
@@ -98,7 +102,7 @@ class ScrollUISegmentController: UIScrollView  {
                }
     }
     
-    func segmentChangeSelectedIndex(_ sender: AnyObject) {
+    @objc func segmentChangeSelectedIndex(_ sender: AnyObject) {
      segmentDelegate?.selectItemAt(index: self.segmentedControl.selectedSegmentIndex, onScrollUISegmentController: self)
         print("\(self.segmentedControl.selectedSegmentIndex)")
         }

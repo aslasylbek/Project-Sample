@@ -21,7 +21,7 @@ class ImageLoader: UIImageView {
     func loadImageWithUrl(_ url: URL) {
         
         // setup activityIndicator...
-        activityIndicator.color = .orange
+        activityIndicator.color = UIColor(named: "accent")
         
         addSubview(activityIndicator)
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false

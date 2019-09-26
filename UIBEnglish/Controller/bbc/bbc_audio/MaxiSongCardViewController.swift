@@ -13,16 +13,17 @@ import UIKit
 
 class MaxiSongCardViewController: UIViewController, SongSubscriber {
     
-    
+    var subDelegate: NowPlayingViewControllerDelegate!
     //cover image constraints
     @IBOutlet weak var coverImageContainerTopInset: NSLayoutConstraint!
     // MARK: - Properties
     let cardCornerRadius: CGFloat = 10
+    var delegate: NowPlayingViewControllerDelegate!
     var currentSong: Song?
     
     weak var sourceView: MaxiPlayerSourceProtocol!
     
-    let primaryDuration = 0.5 //set to 0.5 when ready
+    let primaryDuration = 0.2 //set to 0.5 when ready
     let backingImageEdgeInset: CGFloat = 15.0
     
     
@@ -66,6 +67,7 @@ class MaxiSongCardViewController: UIViewController, SongSubscriber {
     //lower module constraints
     @IBOutlet weak var lowerModuleTopConstraint: NSLayoutConstraint!
     
+    
     // MARK: - View Life Cycle
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -104,6 +106,7 @@ class MaxiSongCardViewController: UIViewController, SongSubscriber {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destination = segue.destination as? SongSubscriber {
             destination.currentSong = currentSong
+            destination.subDelegate = delegate
         }
     }
     
@@ -114,6 +117,21 @@ class MaxiSongCardViewController: UIViewController, SongSubscriber {
         animateCoverImageIn()
         animateLowerModuleIn()
         animateBottomSectionOut()
+    }
+    
+    @IBAction func swipeMaxiGesture(_ sender: UISwipeGestureRecognizer) {
+        print("lslsl")
+        if sender.state == .ended{
+            if sender.direction == .down{
+                animateBackingImageOut()
+                animateCoverImageOut()
+                animateLowerModuleOut()
+                animateBottomSectionIn()
+                animateImageLayerOut() { _ in
+                    self.dismiss(animated: false)
+                }
+            }
+        }
     }
 }
 

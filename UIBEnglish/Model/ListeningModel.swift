@@ -16,7 +16,7 @@ import Alamofire
 
 struct ListeningModel: Codable {
     let id, listening: String?
-    let translate: JSONNull?
+    let translate: JSONAny?
     let questionanswer: [Questionanswer]?
     let soundURL: String?
     

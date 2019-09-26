@@ -7,12 +7,13 @@
 //
 
 import UIKit
-import Reachability
+import SwiftyJSON
 
 class LoginPageViewController: UIViewController, UITextFieldDelegate{
 
     @IBOutlet weak var mBarcodeTextField: UITextField!
     @IBOutlet weak var mPasswordTextField: UITextField!
+    @IBOutlet weak var rootView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,7 +39,6 @@ class LoginPageViewController: UIViewController, UITextFieldDelegate{
     @IBAction func onSignInTouchUp(_ sender: UIButton) {
         //declare this property where it won't go out of scope relative to your listener
 
-       
         
         let mBarcode = mBarcodeTextField.text!
         let mPassword = mPasswordTextField.text!
@@ -46,7 +46,7 @@ class LoginPageViewController: UIViewController, UITextFieldDelegate{
         //MARK: Check for empty fields
         
         if mBarcode.isEmpty || mPassword.isEmpty {
-            displayAlertMessage(userMessage: "Its empty cabrone")
+            displayAlertMessage(userMessage: "Enter barcode and password")
             return
         }
         
@@ -57,11 +57,11 @@ class LoginPageViewController: UIViewController, UITextFieldDelegate{
         guard let url = NSURL(string: "http://moodle.uib.kz/mobile/login.php") else{
             return
         }
-        
+        // todo check for server changed 
         let request = NSMutableURLRequest(url: url as URL)
         request.httpMethod = "POST"
         request.httpBody = "username=\(mBarcode)&password=\(mPassword)".data(using: String.Encoding.utf8)
-
+        showHUDinEffect("Signing in...", view: rootView)
         let task = URLSession.shared.loginResponseTask(with: request as URLRequest) { loginResponse, response, error in
             if let resp = loginResponse {
                 if (resp.success! == 0){
@@ -79,21 +79,23 @@ class LoginPageViewController: UIViewController, UITextFieldDelegate{
                         self.performSegue(withIdentifier: "loggedIn", sender: self)
                     }
                 }
-                
             }
+            DispatchQueue.main.async {
+                self.hideHUDfromEffect(view: self.rootView)
+                if error != nil {
+                    self.displayAlertMessage(userMessage: (error?.localizedDescription)!)
+                }
+            }
+            //print(error?.localizedDescription)
         }
         task.resume()
-        
-        
-        
     }
     
     func displayAlertMessage(userMessage: String) {
-        let myAlert = UIAlertController(title: "Alert", message: userMessage, preferredStyle: .alert)
+        let myAlert = UIAlertController(title: "Oooops", message: userMessage, preferredStyle: .alert)
         myAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
         present(myAlert, animated: true, completion: nil)
     }
-    
     
     /*
     // MARK: - Navigation

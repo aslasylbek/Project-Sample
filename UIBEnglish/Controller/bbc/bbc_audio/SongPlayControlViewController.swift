@@ -9,7 +9,7 @@
 import UIKit
 
 protocol NowPlayingViewControllerDelegate: class {
-    func didPressPlayingButton()
+    func didPressPlayingButton(_ sender: UIButton)
     func didPressStopButton()
     func didPressNextButton()
     func didPressPreviousButton()
@@ -17,16 +17,22 @@ protocol NowPlayingViewControllerDelegate: class {
 
 class SongPlayControlViewController: UIViewController, SongSubscriber {
     
-    weak var delegate: NowPlayingViewControllerDelegate?
     // MARK: - IBOutlets
     @IBOutlet weak var songTitle: UILabel!
     @IBOutlet weak var songArtist: UILabel!
     @IBOutlet weak var songDuration: UILabel!
+    @IBOutlet weak var btnPlayPause: UIButton!
     
     // MARK: - Properties
     var currentSong: Song? {
         didSet {
             configureFields()
+        }
+    }
+    
+    var subDelegate: NowPlayingViewControllerDelegate!{
+        didSet{
+            
         }
     }
     
@@ -36,14 +42,14 @@ class SongPlayControlViewController: UIViewController, SongSubscriber {
         configureFields()
     }
     
-    @IBAction func playingPressed(_ sender: Any) {
-        delegate?.didPressPlayingButton()
+    @IBAction func playingPressed(_ sender: UIButton) {
+        subDelegate?.didPressPlayingButton(sender)
     }
     @IBAction func nextForwardPressed(_ sender: Any) {
-        delegate?.didPressNextButton()
+        subDelegate?.didPressNextButton()
     }
     @IBAction func previousPressed(_ sender: Any) {
-        delegate?.didPressPreviousButton()
+        subDelegate?.didPressPreviousButton()
     }
     
 }
@@ -55,7 +61,7 @@ extension SongPlayControlViewController {
         guard songTitle != nil else {
             return
         }
-        
+        btnPlayPause.isSelected = (currentSong?.isPlaying)!
         songTitle.text = currentSong?.title
         songArtist.text = currentSong?.artist
         songDuration.text = "Duration \(currentSong?.presentationTime ?? "")"

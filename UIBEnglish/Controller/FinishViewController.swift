@@ -25,22 +25,13 @@ class FinishViewController: UIViewController {
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        progressView.startProgress(to: UICircularProgressRing.ProgressValue(progress!), duration: 2)
+        progressView.startProgress(to: CGFloat(progress!), duration: 2)
     }
     
     @IBAction func tappedButti(_ sender: Any) {
         navigationController?.popViewController(animated: true)
         dismiss(animated: true, completion: nil)
     }
-    
-    /*
-    // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

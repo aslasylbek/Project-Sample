@@ -38,6 +38,7 @@ class ReadingTaskViewController: UIViewController {
         super.viewDidLoad()
         tfAnswer.delegate = self
         startTime = NSDate().timeIntervalSince1970
+        
         if (allReading?.questionanswer!.count)! > 0 {
             updateQuestion()
         }

@@ -31,29 +31,28 @@ class ResultViewController: UIViewController, ScrollUISegmentControllerDelegate{
         refresh.tintColor = UIColor(named: "accent")
         refresh.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
         resultTableView.addSubview(refresh)
-        requestForResults()
+        refresh.beginRefreshing()
+        handleRefresh()
     }
     
     func selectItemAt(index: Int, onScrollUISegmentController scrollUISegmentController: ScrollUISegmentController) {
-        //print("select Item At\(index) in scrollUISegmentController with tag  \(scrollUISegmentController.tag) ")
         exersice = allResults[index].exercises!
         resultTableView.reloadData()
     }
     
     @objc func handleRefresh()  {
-        //check for reload
         requestForResults()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            self.refresh.endRefreshing()
-            self.view.setNeedsDisplay()
-        }
-        //        let indexPathNewRow = IndexPath(row: lessonsData.count-1, section: 0)
-        //        expandTableView.insertRows(at: [indexPathNewRow], with: .automatic)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         title = "Results"
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if refresh.isRefreshing {
+            refresh.endRefreshing()
+        }
     }
     
     func addScrollUISegmentController() {
@@ -75,24 +74,34 @@ class ResultViewController: UIViewController, ScrollUISegmentControllerDelegate{
     }
     
     func requestForResults() {
-        guard let courseId = UserDefaults.standard.string(forKey: "course_id") else {
-            return
-        }
-        showHUD("Process")
-        let userId = UserDefaults.standard.string(forKey: "user_id")
-        
-        Alamofire.request("http://de.uib.kz/post/get_user_results.php",
-                          method: .post,
-                          parameters: ["user_id": userId!,
-                                       "course_id": courseId])
-            .responseResultModel { response in
-                if let resultModel = response.result.value {
-                    if (resultModel.topics?.count)!>0{
-                        self.allResults = resultModel.topics!
-                        self.addScrollUISegmentController()
+        if Connectivity.isConnectedToInternet{
+            guard let courseId = UserDefaults.standard.string(forKey: "course_id") else {
+                return
+            }
+            let userId = UserDefaults.standard.string(forKey: "user_id")
+            
+            Alamofire.request("http://de.uib.kz/post/get_user_results.php",
+                              method: .post,
+                              parameters: ["user_id": userId!,
+                                           "course_id": courseId])
+                .responseResultModel { response in
+                    if let resultModel = response.result.value {
+                        if (resultModel.topics?.count)!>0{
+                            self.allResults = resultModel.topics!
+                            self.addScrollUISegmentController()
+                        }
                     }
-                }
-                self.hideHUD()
+                    DispatchQueue.main.asyncAfter(deadline: .now()) {
+                        self.refresh.endRefreshing()
+                        self.view.setNeedsDisplay()
+                    }
+            }
+        }
+        else{
+            Utils.noInternetMessage(controller: self)
+            if refresh.isRefreshing{
+                refresh.endRefreshing()
+            }
         }
     }
     

@@ -51,10 +51,7 @@ class VocabularyViewController: UIViewController {
         showHUD("Loading")
         //lessonsData.removeAll()
         let url = URL(string: "http://moodle.uib.kz/mobile_eng/data.php")
-        var request = URLRequest(url: url!)
-        request.httpMethod = "POST"
         let user_id = UserDefaults.standard.string(forKey: "user_id")
-        request.httpBody = "user_id=\(user_id!)".data(using: String.Encoding.utf8)
         
         Alamofire.request(url!,
                           method: .post,
@@ -81,33 +78,6 @@ class VocabularyViewController: UIViewController {
                     self.hideHUD()
                 }
         }
-                            
-        
-//        let session = URLSession.shared.englishDataTask(with: request) { (englishData, response, error) in
-//            if let englishData = englishData {
-//                let topics = englishData.english![0].topics
-//                for topic in topics!{
-//                    if topic.topicID == self.topicId{
-//                        let words = topic.words
-//                        self.allData = words!
-//                        UserDefaults.standard.setValue(englishData.english![0].courseID!, forKey: "course_id")
-//                        DispatchQueue.main.async {
-//                            //CustomLoader.instance.hideLoader()
-//                            self.rootStackView.isHidden = false
-//                            self.updateCard()
-//                            self.updateUI()
-//                            self.hideHUD()
-//                        }
-//                    }
-//                }
-//            }
-//            else{
-//                self.hideHUD()
-//            }
-//
-//        }
-//        session.resume()
-        //wordImage.image = downloadImage((wordObject?.picURL)!)
     }
     
     func updateCard() {

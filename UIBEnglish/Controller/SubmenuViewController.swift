@@ -13,8 +13,8 @@ struct TaskCategory {
     var title: String
     var icon: String
     var description: String
-    var startTime: EndGram
-    var endTime: EndGram
+    var startTime: Int?
+    var endTime: Int?
     var topic_id: String
 }
 
@@ -36,67 +36,74 @@ class SubmenuViewController: UIViewController {
             categoryData.append(TaskCategory(
                 id: 0,
                 title: "Task 1",
-                icon: "right-arrow",
+                icon: "vocabulary",
                 description: "Listen to the phrase and find it on the list.",
-                startTime: lessonData!.startVoc! ,
-                endTime: lessonData!.endVoc!,
+                startTime: 0,
+                endTime: 0,
                 topic_id: lessonData!.topicID!))
             categoryData.append(TaskCategory(
                 id: 1,
                 title: "Task 2",
-                icon: "right-arrow",
+                icon: "vocabulary",
                 description: "Listen to the phrase and find its translation.",
-                startTime: lessonData!.startVoc! ,
-                endTime: lessonData!.endVoc!,
+                startTime: convertToTime(lessonData!.startVoc!) ,
+                endTime: convertToTime(lessonData!.endVoc!),
                 topic_id: lessonData!.topicID!))
             categoryData.append(TaskCategory(
                 id: 2,
                 title: "Task 3",
-                icon: "right-arrow",
+                icon: "vocabulary",
                 description: "Read the phrase and find its translation.",
-                startTime: lessonData!.startVoc! ,
-                endTime: lessonData!.endVoc!,
+                startTime: convertToTime(lessonData!.startVoc!) ,
+                endTime: convertToTime(lessonData!.endVoc!),
                 topic_id: lessonData!.topicID!))
             categoryData.append(TaskCategory(
                 id: 3,
                 title: "Task 4",
-                icon: "right-arrow",
+                icon: "vocabulary",
                 description: "Write the phrase at dictation.",
-                startTime: lessonData!.startVoc! ,
-                endTime: lessonData!.endVoc!,
+                startTime: convertToTime(lessonData!.startVoc!) ,
+                endTime: convertToTime(lessonData!.endVoc!),
                 topic_id: lessonData!.topicID!))
         }
         if (lessonData?.listening?.count)!>0{
             categoryData.append(TaskCategory(
                 id: 4,
                 title: "Listening",
-                icon: "albumArt",
+                icon: "listening",
                 description: "Listen to the text and put the missed word.",
-                startTime: lessonData!.startListen! ,
-                endTime: lessonData!.endListen!,
+                startTime: convertToTime(lessonData!.startListen!) ,
+                endTime: convertToTime(lessonData!.endListen!),
                 topic_id: lessonData!.topicID!))
         }
         if (lessonData?.reading?.count)!>0{
             categoryData.append(TaskCategory(
                 id: 5,
                 title: "Reading",
-                icon: "right-arrow",
+                icon: "reading",
                 description: "Read the text and do tasks.",
-                startTime: lessonData!.startRead!,
-                endTime: lessonData!.endRead!,
+                startTime: convertToTime(lessonData!.startRead!),
+                endTime: convertToTime(lessonData!.endRead!),
                 topic_id: lessonData!.topicID!))
         }
-        if (lessonData?.grammar?.count)!>0{
+        if (lessonData?.grammar![0].constructor?.count)!>0||(lessonData?.grammar![0].missword?.count)!>0{
             categoryData.append(TaskCategory(
                 id: 6,
                 title: "Grammar",
-                icon: "right-arrow",
+                icon: "grammar",
                 description: "Put the missing word. Building a proposal.",
-                startTime: lessonData!.startGram! ,
-                endTime: lessonData!.endGram!,
+                startTime: convertToTime(lessonData!.startGram!),
+                endTime: convertToTime(lessonData!.endGram!),
                 topic_id: lessonData!.topicID!))
         }
         
+    }
+    
+    func convertToTime(_ jsonAny: JSONAny) -> Int? {
+        let stringToInt = jsonAny.value as? Int64 ?? 0
+        let s = Int(stringToInt)
+        print(s)
+        return s
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -108,6 +115,7 @@ class SubmenuViewController: UIViewController {
             }
         }
     }
+    
     
     @IBAction func backToMenu(_ sender: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
@@ -132,7 +140,28 @@ extension SubmenuViewController: UICollectionViewDataSource, UICollectionViewDel
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let word = lessonData?.words![indexPath.row]
+        
+        let s = collectionView.cellForItem(at: indexPath) as! SubmenuLayout
+        if !s.lockedView.isHidden {
+            var duration = ""
+            if (s.submenu?.startTime)! > 0{
+                duration.append(Utils.getDateFromTimeStamp(timeStamp: (s.submenu?.startTime)!))
+            }
+            duration.append("  ")
+            if (s.submenu?.endTime)! > 0{
+                duration.append(Utils.getDateFromTimeStamp(timeStamp: (s.submenu?.endTime)!))
+            }
+            let alertController = UIAlertController(
+                title: "Locked",
+                message: "Available in: \(duration)", 
+                preferredStyle: .alert
+            )
+            alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+            present(alertController, animated: true, completion: nil)
+        }
+        else{
+            performSegue(withIdentifier: "goTest", sender: s.submenu)
+        }
     }
     
     

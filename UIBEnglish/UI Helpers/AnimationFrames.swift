@@ -15,6 +15,7 @@ class AnimationFrames {
         var animationFrames = [UIImage]()
         for i in 0...3 {
             if let image = UIImage(named: "NowPlayingBars-\(i)") {
+               
                 animationFrames.append(image)
             }
         }

@@ -1,20 +1,29 @@
+
 // To parse the JSON, add this file to your project and do:
 //
-//   let grammarData = try? newJSONDecoder().decode(GrammarData.self, from: jsonData)
+//   let grammarModel = try? newJSONDecoder().decode(GrammarModel.self, from: jsonData)
 //
 // To parse values from Alamofire responses:
 //
-//   Alamofire.request(url).responseGrammarData { response in
-//     if let grammarData = response.result.value {
+//   Alamofire.request(url).responseGrammarModel { response in
+//     if let grammarModel = response.result.value {
 //       ...
 //     }
 //   }
-
 import Foundation
 import Alamofire
 
 
 struct GrammarModel: Codable {
+    let missword: [Missword]?
+    let constructor: [Constructor]?
+}
+
+struct Constructor: Codable {
+    let id, sentence, translate: String?
+}
+
+struct Missword: Codable {
     let id, sentence, question, answer: String?
     let translate: String?
     let soundURL: String?
@@ -24,7 +33,6 @@ struct GrammarModel: Codable {
         case soundURL = "sound_url"
     }
 }
-
 // MARK: - Alamofire response handlers
 
 extension DataRequest {
@@ -46,7 +54,7 @@ extension DataRequest {
     }
     
     @discardableResult
-    func responseGrammarData(queue: DispatchQueue? = nil, completionHandler: @escaping (DataResponse<[GrammarModel]>) -> Void) -> Self {
+    func responseGrammarModel(queue: DispatchQueue? = nil, completionHandler: @escaping (DataResponse<[GrammarModel]>) -> Void) -> Self {
         return responseDecodable(queue: queue, completionHandler: completionHandler)
     }
 }

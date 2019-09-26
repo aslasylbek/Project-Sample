@@ -26,15 +26,16 @@ class MenuViewController: UIViewController {
         let cellNib = UINib(nibName: "NothingFoundCell", bundle: nil)
         expandTableView.register(cellNib, forCellReuseIdentifier: "NothingFound")
         
-        
         expandTableView.estimatedRowHeight = 30
         expandTableView.rowHeight = 90
         
         refresh.attributedTitle = NSAttributedString(string: "Pull to refresh", attributes: [.foregroundColor: UIColor(named: "accent") ?? .white])
-        //refresh.backgroundColor = .black
         refresh.tintColor = UIColor(named: "accent")
         refresh.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
         expandTableView.addSubview(refresh)
+        refresh.beginRefreshing()
+        
+        handleRefresh()
         
       
     }
@@ -42,56 +43,85 @@ class MenuViewController: UIViewController {
     @objc func handleRefresh()  {
         //check for reload
         getUserEnglishData()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            self.refresh.endRefreshing()
-            self.view.setNeedsDisplay()
-        }
         
-//        let indexPathNewRow = IndexPath(row: lessonsData.count-1, section: 0)
-//        expandTableView.insertRows(at: [indexPathNewRow], with: .automatic)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         title = "Menu"
-        refresh.beginRefreshing()
-        handleRefresh()
+        
         //getUserEnglishData()
         expandTableView.setNeedsDisplay()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if refresh.isRefreshing{
+            refresh.endRefreshing()
+        }
+        
+    }
+    
+    private func sendTokenAndDeviceModel(){
+        
+    }
+    
+    
+  
+    
     private func getUserEnglishData(){
-        let url = URL(string: "http://moodle.uib.kz/mobile_eng/data.php")
-        let user_id = UserDefaults.standard.string(forKey: "user_id")
-        
-        print(user_id)
-        
-        Alamofire.request(url!,
-                          method: .post,
-                          parameters: ["user_id": user_id!]).responseEnglishModel { response in
-            if let englishData = response.result.value {
-                guard let english = englishData.english,
-                    english.count>0 else {
-                        return
+        if Connectivity.isConnectedToInternet{
+            let url = URL(string: "http://moodle.uib.kz/mobile_eng/data.php")
+            let user_id = UserDefaults.standard.string(forKey: "user_id")
+            
+            print(user_id)
+            
+            Alamofire.request(url!,
+                              method: .post,
+                              parameters: ["user_id": user_id!]).responseEnglishModel { response in
+                if let englishData = response.result.value {
+                    guard let english = englishData.english,
+                        english.count>0 else {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                self.refresh.endRefreshing()
+                                self.view.setNeedsDisplay()
+                            }
+                            return
+                    }
+                    let topics = english[0].topics
+                    self.lessonsData = topics!
+                    let userDefaults = UserDefaults.standard
+                    userDefaults.setValue(english[0].courseID!, forKey: "course_id")
+                    userDefaults.setValue(englishData.info![0].fio!, forKey: "student_name")
+                    userDefaults.setValue(englishData.info![0].group!, forKey: "student_group")
+                    userDefaults.setValue(englishData.info![0].program!, forKey: "student_program")
+                    if englishData.info![0].code! != "0" && englishData.info![0].code != nil {
+                        userDefaults.setValue(englishData.info![0].code!, forKey: "student_code")
+                    }
+                    userDefaults.setValue(english[0].teacherFio!, forKey: "teacher_name")
+                    userDefaults.setValue(english[0].dispName!, forKey: "disc_name")
+                    userDefaults.synchronize()
+                    DispatchQueue.main.async {
+                        self.expandTableView.reloadData()
+                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        self.refresh.endRefreshing()
+                        self.view.setNeedsDisplay()
+                    }
+                    
                 }
-                let topics = english[0].topics
-                self.lessonsData = topics!
-                let userDefaults = UserDefaults.standard
-                userDefaults.setValue(english[0].courseID!, forKey: "course_id")
-                userDefaults.setValue(englishData.info![0].fio!, forKey: "student_name")
-                userDefaults.setValue(englishData.info![0].group!, forKey: "student_group")
-                userDefaults.setValue(englishData.info![0].program!, forKey: "student_program")
-                if englishData.info![0].code! != "0" && englishData.info![0].code != nil {
-                    userDefaults.setValue(englishData.info![0].code!, forKey: "student_code")
-                }
-                userDefaults.setValue(english[0].teacherFio!, forKey: "teacher_name")
-                userDefaults.setValue(english[0].dispName!, forKey: "disc_name")
-                userDefaults.synchronize()
-                DispatchQueue.main.async {
-                    self.expandTableView.reloadData()
+                else{
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        self.refresh.endRefreshing()
+                        self.view.setNeedsDisplay()
+                    }
                 }
             }
-            else{
+        }
+        else{
+            Utils.noInternetMessage(controller: self)
+            if refresh.isRefreshing{
+                refresh.endRefreshing()
             }
         }
     }
@@ -142,13 +172,4 @@ extension MenuViewController: UITableViewDataSource{
 //        cell.contentView.addSubview(progressView)
         
     }
-}
-
-extension MenuViewController: UITableViewDelegate{
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-      
-    }
-    
 }

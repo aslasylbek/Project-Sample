@@ -21,7 +21,7 @@ extension UITableViewController {
         if (message != nil) {hud.label.text = message}
         hud.isUserInteractionEnabled = false
         hud.layer.zPosition = 2
-        hud.contentColor = UIColor.green
+        hud.contentColor = UIColor(named: "accent")
         hud.bezelView.color = .clear
         self.tableView.layer.zPosition = 1
     }
@@ -34,7 +34,7 @@ extension UICollectionViewController {
         hud.isUserInteractionEnabled = false
         hud.layer.zPosition = 2
         hud.bezelView.color = .clear
-        hud.contentColor = UIColor.green
+        hud.contentColor = UIColor(named: "accent")
         self.collectionView.layer.zPosition = 1
     }
 }
@@ -45,9 +45,34 @@ extension UIViewController {
         let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
         if (message != nil) {hud.label.text = message}
         hud.bezelView.color = .clear
-        hud.contentColor = UIColor.green
+        hud.contentColor = UIColor(named: "accent")
         hud.isUserInteractionEnabled = false
     }
+    
+    func showHUDinEffect(_ message: String?, view: UIView) {
+        let hud = MBProgressHUD.showAdded(to: view, animated: true)
+        if (message != nil) {hud.label.text = message}
+        hud.bezelView.color = .clear
+        hud.contentColor = UIColor(named: "accent")
+        hud.isUserInteractionEnabled = false
+    }
+    
+    func showCompleteHUD(_ message: String?) {
+        let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
+        if (message != nil) {hud.label.text = message}
+        hud.customView = UIImageView(image: UIImage(named: "checked"))
+        hud.mode = .customView
+        hud.bezelView.color = .clear
+        hud.contentColor = UIColor(named: "accent")
+        hud.isUserInteractionEnabled = false
+        hud.show(animated: true)
+        hud.hide(animated: true, afterDelay: 2)
+    }
+    
+    func hideHUDfromEffect(view: UIView) {
+        MBProgressHUD.hide(for: view, animated: true)
+    }
+    
     
     func hideHUD() {
         MBProgressHUD.hide(for: self.view, animated: true)

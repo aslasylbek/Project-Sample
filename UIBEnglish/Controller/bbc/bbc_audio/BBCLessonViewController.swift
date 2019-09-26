@@ -13,7 +13,7 @@ protocol PassLessonTaskResult {
     func setResult(result: Int, topicId: Int)
 }
 
-class BBCLessonViewController: UIViewController, PassLessonTaskResult {
+class BBCLessonViewController: UIViewController, PassLessonTaskResult, NowPlayingViewControllerDelegate {
     
     @IBOutlet weak var mSegment: UISegmentedControl!
     @IBOutlet weak var containerView: UIView!
@@ -69,15 +69,33 @@ class BBCLessonViewController: UIViewController, PassLessonTaskResult {
         
     }
     
+    func didPressPlayingButton(_ sender: UIButton) {
+        miniPlayer?.didPressPlayingButton(sender)
+    }
+    
+    func didPressStopButton() {
+        //miniPlayer?.didPressStopButton()
+    }
+    
+    func didPressNextButton() {
+        miniPlayer?.didPressNextButton()
+    }
+    
+    func didPressPreviousButton() {
+        miniPlayer?.didPressPreviousButton()
+    }
+    
     func createNowPlayingAnimation() {
-        
         // Setup ImageView
+        
         nowPlayingImageView = UIImageView(image: UIImage(named: "NowPlayingBars-3"))
+        
         nowPlayingImageView.autoresizingMask = []
         nowPlayingImageView.contentMode = UIView.ContentMode.center
         
         // Create Animation
         nowPlayingImageView.animationImages = AnimationFrames.createFrames()
+        nowPlayingImageView.tintColor = UIColor(named: "accent")
         nowPlayingImageView.animationDuration = 0.7
         
         // Create Top BarButton
@@ -127,7 +145,7 @@ class BBCLessonViewController: UIViewController, PassLessonTaskResult {
     }
     
     private func setupMiniPlayer(){
-        currentSong = Song(title: titleMusic!, duration: 123, artist: "Divid Bowe",  mediaURL: URL(string: imageUrl!),coverArtURL: URL(string: audioUrl!))
+        currentSong = Song(title: titleMusic!, duration: 0, artist: "BBC English",  mediaURL: URL(string: imageUrl!),coverArtURL: URL(string: audioUrl!), isPlaying: false)
         miniPlayer?.configure(song: currentSong)
     }
     
@@ -213,10 +231,16 @@ extension BBCLessonViewController: MiniPlayerDelegate {
         maxiCard.currentSong = song
         
         maxiCard.sourceView = miniPlayer
+        maxiCard.delegate = self
+    
 //        if let tabBar = tabBarController?.tabBar {
 //            maxiCard.tabBarImage = tabBar.makeSnapshot()
 //        }
         //4.
         present(maxiCard, animated: false)
+    }
+    
+    func playingNow(isPlaying: Bool) {
+        startNowPlayingAnimation(isPlaying)
     }
 }

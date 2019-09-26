@@ -14,18 +14,18 @@ struct ConstantsVCTitle {
     static let vocTestVC = "vocTestVC"
     static let finishVC = "finishVC"
     static let grammarVC = "grammarVC"
-    static let readingVC = "readingVC"
-    static let readingTaskVC = "readingTaskVC"
+    static let readingVC = "readingRouter"
     static let listeningVC = "listeningVC"
 }
 
-class PageViewController: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
+class PageViewController: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, AddSegmentProtocol {
     
     var topicId: String?
     var taskId: Int?
     var viewControllerList: [UIViewController] = []
     var counter = 0
     var readingData: ReadingModel?
+    private var rvc: ReadingSegmentController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -94,13 +94,9 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
             vcv?.topicId = topicId
             vcv?.taskId = taskId
         case ConstantsVCTitle.readingVC:
-            let rvc = vc as? ReadingViewController
-            rvc?.delegate = self
-            rvc?.readingData = readingData
+            rvc = vc as? ReadingSegmentController
             rvc?.topicId = topicId
-        case ConstantsVCTitle.readingTaskVC:
-            let rtvc = vc as? ReadingTaskViewController
-            rtvc?.allReading = readingData
+            rvc?.delegate = self
         case ConstantsVCTitle.listeningVC:
             let lvc = vc as? ListeningViewController
             lvc?.delegate = self
@@ -111,6 +107,26 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
         return vc
     }
     
+    func addSegment() {
+        addSegmentControl()
+    }
+    
+    private func addSegmentControl(){
+        let items = ["Article" , "Tasks"]
+        let segmentedControl = UISegmentedControl(items : items)
+        segmentedControl.center = (self.navigationController?.navigationBar.center)!
+        segmentedControl.selectedSegmentIndex = 0
+        segmentedControl.addTarget(self, action: #selector(PageViewController.indexChanged(segment:)), for: .valueChanged)
+        segmentedControl.layer.cornerRadius = 5.0
+        segmentedControl.backgroundColor = .white
+        segmentedControl.tintColor = UIColor(named: "accent")
+        self.navigationItem.titleView = segmentedControl
+    }
+    
+    @objc func indexChanged( segment : UISegmentedControl){
+        rvc?.listenerSegment(index: segment.selectedSegmentIndex)
+    }
+    
     func presentationCount(for pageViewController: UIPageViewController) -> Int {
         return viewControllerList.count
     }
@@ -118,26 +134,14 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
     func presentationIndex(for pageViewController: UIPageViewController) -> Int {
         return 0
     }
+    
+   
 
 }
 
-extension PageViewController:  PassVocabulatyResultToParent, ReadingTasksNification{
+extension PageViewController:  PassVocabulatyResultToParent{
     
-    
-    func notifyParentToAddTasks(readingData: ReadingModel) {
-        if (readingData.questionanswer?.count)!>0 || (readingData.truefalse?.count)!>0{
-            let readingTaskVC = pageViewController(identifier: ConstantsVCTitle.readingTaskVC, taskId: taskId!) as? ReadingTaskViewController
-            readingTaskVC?.allReading = readingData
-            readingTaskVC?.delegate = self
-            readingTaskVC?.topicId = topicId
-            viewControllerList.append(readingTaskVC!)
-            self.setViewControllers([self.viewControllerList[counter]], direction: .forward, animated: true, completion: nil)
-            counter+=1
-        }
-        else{
-            dismiss(animated: true, completion: nil)
-        }
-    }
+
     
     func passResult(result: Int) {
         let finishVC = pageViewController(identifier: ConstantsVCTitle.finishVC, taskId: 0) as? FinishViewController

@@ -8,18 +8,23 @@
 
 import UIKit
 import Alamofire
+import SwiftyJSON
+import Firebase
 
 class MyTabBarController: UITabBarController {
     
-
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         delegate = self
-    
-        // Sending token and device id to server
-        sendDeviceInfoToServer()
         
+        guard let token = Messaging.messaging().fcmToken else {
+            return
+        }
+        
+        print("New FCM ", token)
+        // Sending token and device id to server
+        sendDeviceInfoToServer(token: token)
         
     }
     
@@ -33,7 +38,7 @@ class MyTabBarController: UITabBarController {
         return identifier
     }
     
-    private func sendDeviceInfoToServer(){
+    private func sendDeviceInfoToServer(token: String){
         
         //MARK: Get systemInformation
         var systemInfo = utsname()
@@ -45,11 +50,12 @@ class MyTabBarController: UITabBarController {
         let device_version = getConfStringFromBinary(param: systemInfo.version)
         let device_sysname = getConfStringFromBinary(param: systemInfo.sysname)
         
+        
+        
         //MARK: Make request
-        showHUD("Requesting")
         let user_id = UserDefaults.standard.string(forKey: "user_id")
         let params = ["user_id": user_id!,
-                      "token": "Sample",
+                      "token": token,
                       "device_type": "ios",
                       "device_machine": device_machine,
                       "device_nodename": device_node,
@@ -57,17 +63,21 @@ class MyTabBarController: UITabBarController {
                       "device_sysname": device_sysname,
                       "device_version": device_version,
                       "os_version": UIDevice.current.systemVersion] as [String : Any]
-        Alamofire.request("http://moodle.uib.kz/mobile/tokens.php",
+        Alamofire.request("http://de.uib.kz/mobile/tokens.php",
                           method: .post,
                           parameters: params)
-            .responseLinguoWordModel { response in
-                if let linguoWordModel = response.result.value {
-
+            .responseJSON { response in
+                if let value = response.result.value {
+                    let json = JSON(value)
+                    print("Otvet", json)
+                    if json["success"].int == 1{
+                    }
+                    else if json["success"].int==0{
+                    }
                 }
                 else{
                     print("Error cabrone")
                 }
-                self.hideHUD()
         }
     }
 }

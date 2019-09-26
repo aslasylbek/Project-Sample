@@ -12,10 +12,6 @@ import UIKit
 class Utils{
     
     
-    let baseURLMoodle = ""
-    let baseURLDe = ""
-    
-    
     static func show_message(controller: UIViewController, message : String, seconds: Double) {
         let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
         alert.view.backgroundColor = UIColor.black
@@ -29,82 +25,23 @@ class Utils{
         }
     }
     
-
-//
-//
-//    @FormUrlEncoded
-//    @POST("post/user_word_data.php")
-//    Call<PostDataResponse> postUnknownWord(
-//    @Field("user_id") String user_id,
-//    @Field("course_id") String course_id,
-//    @Field("word") String word);
-//
-//    @FormUrlEncoded
-//    @POST("post/user_word_data.php")
-//    Call<PostDataResponse> changeWordAsKnown(
-//    @Field("word_id") String word_id);
-//
-//    @FormUrlEncoded
-//    @POST("post/reading_questions.php")
-//    Call<PostDataResponse> postReadingResult(
-//    @Field("user_id") String user_id,
-//    @Field("topic_id") String topic_id,
-//    @Field("result_ans") Integer result_ans,
-//    @Field("result_tf") Integer result_tf,
-//    @Field("start_time") long start_time);
-//
-
-//
-//    @FormUrlEncoded
-//    @POST("post/grammatika_questions.php")
-//    Call<PostDataResponse> postGrammarResultNew(
-//    @Field("user_id") String user_id,
-//    @Field("topic_id") String topic_id,
-//    @Field("result_ans") int result_ans,
-//    @Field("result_cons") int result_cons,
-//    @Field("start_time") long start_time);
-//
-//    @FormUrlEncoded
-//    @POST("mobile/tokens.php")
-//    Call<PostDataResponse> sendTokenToServer(
-//    @Field("user_id") String user_id,
-//    @Field("device_token") String device_token);
-//
-//    /***
-//     *
-//     * @param user_id
-//     * @return
-//     */
-//
-//    //Get
-//    @FormUrlEncoded
-//    @POST("post/words_data.php")
-//    Call<List<WordCollection>> getStudentWallet(
-//    @Field("user_id") String user_id,
-//    @Field("course_id") String course_id);
-//
-//    @FormUrlEncoded
-//    @POST("post/get_reading.php")
-//    Call<List<Reading>> getReadingArray(
-//    @Field("topic_id") String topic_id);
-//
-//    @FormUrlEncoded
-//    @POST("post/get_listening.php")
-//    Call<List<Listening>> getListeningArray(
-//    @Field("topic_id") String topic_id);
-//
-//    @FormUrlEncoded
-//    @POST("post/get_grammatika.php")
-//    Call<List<Grammar>> getGrammarArray(
-//    @Field("topic_id") String topic_id);
-//
-//    @FormUrlEncoded
-//    @POST("post/get_user_results.php")
-//    Call<ResultStudentTasks> getUserResult(
-//    @Field("user_id") String user_id,
-//    @Field("course_id") String course_id);
+    static func noInternetMessage(controller: UIViewController) {
+        let myAlert = UIAlertController(title: "Oooops", message: "No Internet connection", preferredStyle: .alert)
+        myAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        controller.present(myAlert, animated: true, completion: nil)
+    }
     
-    
-
+    static func getDateFromTimeStamp(timeStamp : Int) -> String {
+        
+        let date = NSDate(timeIntervalSince1970: Double(timeStamp))
+        
+        let dayTimePeriodFormatter = DateFormatter()
+        dayTimePeriodFormatter.dateFormat = "dd MMM YY, hh:mm a"
+        // UnComment below to get only time
+        //  dayTimePeriodFormatter.dateFormat = "hh:mm a"
+        
+        let dateString = dayTimePeriodFormatter.string(from: date as Date)
+        return dateString
+    }
 
 }

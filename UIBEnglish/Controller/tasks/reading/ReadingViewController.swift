@@ -12,46 +12,23 @@ import SwiftyJSON
 
 import AVFoundation
 
-protocol ReadingTasksNification{
-    func notifyParentToAddTasks(readingData: ReadingModel)
-}
+
 class ReadingViewController: UIViewController, UITextViewDelegate {
 
     @IBOutlet weak var tvArticle: UITextView!
     var readingData: ReadingModel?
     var topicId: String?
-    var delegate: ReadingTasksNification!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        requestForReading()
+        tvArticle.text = readingData?.reading!
         addCustomMenu()
     }
     
-    func requestForReading() {
-        showHUD("Process")
-        let params = ["topic_id": topicId!] as [String : Any]
-        Alamofire.request("http://de.uib.kz/post/get_reading.php",
-                          method: .post,
-                          parameters: params)
-            .responseReadingModel { response in
-                if let value = response.result.value{
-                    self.readingData = value[0]
-                    self.tvArticle.text = value[0].reading
-                    if (value[0].questionanswer?.count)!>0 || (value[0].truefalse?.count)!>0{
-                        // call protocol
-                    }
-                }
-                else{
-                    
-                }
-                self.hideHUD()
-        }
+   
+    override func viewWillLayoutSubviews() {
+        tvArticle.setContentOffset(.zero, animated: true)
     }
-    
-    
-    
-    
    
     
     func addCustomMenu() {
@@ -114,10 +91,6 @@ class ReadingViewController: UIViewController, UITextViewDelegate {
         }
     }
     
-    @IBAction func finishReading(_ sender: UIButton) {
-        delegate.notifyParentToAddTasks(readingData: readingData!)
-        
-    }
 }
 
 extension ReadingViewController: NotifyAddToWordbook{
